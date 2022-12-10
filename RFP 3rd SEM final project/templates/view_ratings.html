@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}} at {{airline}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth=="staff" %}
+    
+    <style type="text/css">
+    	table, th, td{
+    		border: 1px solid black;
+    	}
+    </style>
+
+    <p>Ratings on: {{airline}}, {{flight_number}}, {{dept_datetime}}</p>
+    
+    {% if avgRating %}
+        <p>Average Rating: {{avgRating}}</p>
+    {% endif %}
+    
+    {% if allRatings %}
+    	<p>All Ratings:</p>
+        <table>
+        	<th>Customer</th>
+        	<th>Rating</th>
+        	<th>Comments</th>
+        
+        {% for line in allRatings %}
+        	<tr>
+        		<td>{{line['email']}}</td>
+        		<td>{{line['rate']}}</td>
+        		<td>{{line['comments']}}</td>
+        	</tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+
+    
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}
+    
+
+{% endif %}
+
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+
+</body>
+</html>

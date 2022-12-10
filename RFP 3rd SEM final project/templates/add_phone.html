@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}} at {{airline}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth=="staff" %}
+    <p>Add A Phone:</p>
+    <form action="/add_phoneConfirm" method="POST">
+        <input type="text" name="phoneNum" placeholder="phone number" required><br>
+        <p><input type="submit" value="Add"></p>
+    </form>
+    
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}
+    
+    <br>
+    
+    <style type="text/css">
+    	table, th, td{
+    		border: 1px solid black;
+    	}
+    </style>
+    
+    
+    {% if phones %}
+    	<p>You have phones:</p>
+        <table>
+        	<th>Phone Number</th>
+        
+        {% for line in phones %}
+        	<tr>
+        		<td>{{line['phone_number']}}</td>
+        	</tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        <p>You do not have any phones currently, please add a phone.</p>
+    {% endif %}
+    
+    
+    
+
+{% endif %}
+
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+
+</body>
+</html>

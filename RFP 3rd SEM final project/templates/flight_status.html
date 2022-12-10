@@ -1,0 +1,34 @@
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+<form action="/flight_statusSearch" method="POST">
+	Airline Name:<br><input type="text" name = "airline" required/><br>
+	Flight Number:<br><input type="text" name = "flight_num" required/><br>
+	Departure Date:<br><input type="date" name = "dept_date" required/><br>
+	<p><input type="submit" value = "Search" /></p>
+</form>
+
+<br>
+
+
+{% if airStatus %}
+<p>Status: {{airStatus['flight_status']}} </p>
+{% endif %}
+
+{% if error %}
+<p>Error: {{error}} </p>
+{% endif %}
+
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+</body>
+</html>

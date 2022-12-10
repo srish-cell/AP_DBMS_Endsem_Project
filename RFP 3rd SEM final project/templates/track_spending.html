@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth == "customer" %}
+    <p>
+    From {{yearSpending['startdate']}} to {{yearSpending['enddate']}}<br>
+    Spending Last Year: {{yearSpending['yearSpending']}}
+    </p>
+    
+
+
+    <style type="text/css">
+    	table, th, td{
+    		border: 1px solid black;
+    	}
+    </style>
+    
+    <p>Monthly Spendings (only showing months with a spending record)<br>
+    For the past 6 months:</p>
+    
+    {% if monthlySpending %}
+        <table>
+            <th>Year</th>
+        	<th>Month</th>
+        	<th>Spending</th>
+        
+        {% for line in monthlySpending %}
+        	<tr>
+            	<td>{{line['year']}}</td>
+        		<td>{{line['month']}}</td>
+        		<td>{{line['spending']}}</td>
+        	</tr>
+        {% endfor %}
+        </table>
+    {% else %}
+        No spending in the past 6 months.
+    {% endif %}
+    
+        
+    <br>
+    <p>Search My Spending within Time Range:</p>
+    <form action="/track_spendingSearch" method="POST">
+        Start Date:<br>
+        <input type="date" name="startdate"><br>
+        End Date:<br>
+        <input type="date" name="enddate"><br>
+        <p><input type="submit" value = "Search" /></p>
+    </form>
+    
+    {% if searchSpendingData %}
+        <table>
+            <th>Year</th>
+        	<th>Month</th>
+        	<th>Spending</th>
+        
+        {% for line in searchSpendingData %}
+        	<tr>
+            	<td>{{line['year']}}</td>
+        		<td>{{line['month']}}</td>
+        		<td>{{line['spending']}}</td>
+        	</tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+    
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}
+    
+    
+{% endif %}
+
+
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>INDEX</title>
+	<link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+	<h4 class='head'>Welcome to online RFP Air Ticket Reservation System!</h4>
+{% if not username %}
+	<br>
+	<p>Hi! Please <a href="/login">login</a>.</p>
+	<p>Don't have an account? <br><a href="/customer_register">Customer Register</a>    <a href="/staff_register">Staff Register</a>.</p>
+{% endif %}
+
+{% if username %}
+	<br>
+	<p>Hi, {{username}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+<br>
+<p><a href="/future_flights">Future Flights</a></p>
+<p><a href="/flight_status">Flight Status</a></p>
+
+
+{% if auth == "customer" %}
+	<p><a href="/customer_home">Customer Homepage</a></p>
+{% endif %}
+
+{% if auth == "staff" %}
+    <p><a href="/staff_home">Staff Homepage</a></p>
+{% endif %}
+
+
+</body>
+
+</html>

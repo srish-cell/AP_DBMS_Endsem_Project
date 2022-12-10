@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}} at {{airline}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth=="staff" %}
+
+    <style type="text/css">
+    	table, th, td{
+    		border: 1px solid black;
+    	}
+    </style>
+    
+    
+    {% if customerAllFlights %}
+    	<p>All Flights of Customer {{cusEmail}}:</p>
+        <table>
+        	<th>Flight Number</th>
+        	<th>Departure Datetime</th>
+        	<th>Tickets ID</th>
+        
+        {% for line in customerAllFlights %}
+        	<tr>
+        		<td>{{line['flight_number']}}</td>
+        		<td>{{line['departure_datetime']}}</td>
+        		<td>{{line['ticket_id']}}</td>
+        	</tr>
+        {% endfor %}
+        </table>
+
+    {% endif %}
+
+
+{% endif %}
+
+
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}} at {{airline}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth=="staff" %}
+
+    <style type="text/css">
+    	table, th, td{
+    		border: 1px solid black;
+    	}
+    </style>
+    
+    <p>Top Destinations:</p>
+    
+    {% if monthDest %}
+        <p>Last 3 Months:</p>
+        <table>
+        	<th>Airport Code</th>
+        	<th>Airport Name</th>
+        	<th>Airport City</th>
+        	<th>Number of Tickets</th>
+        
+        {% for line in monthDest %}
+        	<tr>
+        		<td>{{line['airport_code']}}</td>
+        		<td>{{line['airport_name']}}</td>
+        		<td>{{line['airport_city']}}</td>
+        		<td>{{line['ticket_num']}}</td>
+        	</tr>
+        {% endfor %}
+        </table>
+    {% endif %}
+    
+    {% if yearDest %}
+        <p>
+        Last Year:<br>
+        <table>
+        	<th>Airport Code</th>
+            <th>Airport Name</th>
+        	<th>Airport City</th>
+        	<th>Number of Tickets</th>
+        
+        {% for line in yearDest %}
+        	<tr>
+        		<td>{{line['airport_code']}}</td>
+        		<td>{{line['airport_name']}}</td>
+        		<td>{{line['airport_city']}}</td>
+        		<td>{{line['ticket_num']}}</td>
+        	</tr>
+        {% endfor %}
+        </table>
+        </p>
+    {% endif %}
+    
+{% endif %}
+
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+
+</body>
+</html>

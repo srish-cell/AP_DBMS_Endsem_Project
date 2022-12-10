@@ -1,0 +1,26 @@
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+<h1> RFP AIRLINE TICKET BOOKING</h1>
+<form action="" name = "login" method="POST">
+	<h4>Login</h4>
+	Email/Username:</br> <input type="text" name = "username" required/></br>
+	Password:</br> <input type="password" name = "password" required/></br>
+	<!-- <input type="submit" value="Customer Login" />  <input type="submit" value = "Staff Login" /></br> -->
+	<br>
+	<br>
+	<input type="submit" value="Customer Login" onclick="login.action='customer_loginAuth'" />
+	<input type="submit" value="Staff Login" onclick="login.action='staff_loginAuth'"/>
+	{% if error %}
+		<p class="error"><strong>Error:</strong> {{error}}</p>
+	{% endif %}
+</form>
+
+<a href="/">Go back</a>
+
+</body>
+
+
+</html>

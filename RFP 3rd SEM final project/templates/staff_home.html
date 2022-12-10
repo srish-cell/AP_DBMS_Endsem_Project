@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}} at {{airline}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth == "staff" %}
+    Staff Functions: </br>
+	<p><a href="/view_flights">View Flights & Change Status</a></p>  <!-- and change status, view ratings -->
+	<p><a href="/create_new_flights">Create New Flights</a></p>
+	<p><a href="/add_airplanes">Add Airplanes</a></p>
+	<p><a href="/add_airports">Add Airports</a></p>
+	<p><a href="/view_flight_ratings">View Flight Ratings</a></p>
+	<p><a href="/view_frequent_customers">View Frequent Customers</a></p>
+	<p><a href="/view_earned_revenue">View Reports & Earned Revenue</a></p>
+	<p><a href="/view_top_destinations">View Top Destinations</a></p>
+	<p><a href="/add_phone">My Phones</a></p>
+	
+
+{% endif %}
+
+<br>
+<p><a href="/">Go back</a></p>
+
+
+</body>
+
+</html>

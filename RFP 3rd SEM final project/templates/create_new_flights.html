@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}} at {{airline}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth=="staff" %}
+    
+    <h4>Create A New Flight</h4>
+    
+    <form action="/create_new_flightsConfirm" method="POST">
+        Flight Number:<br><input type="text" name = "flight_number" required/><br>
+    	Departure Airport:<br><input type="text" name = "dept_air" size="10" required/><br>
+    	Departure Date&Time:<br><input type="date" name = "dept_date" required/> <input type="time" name = "dept_time" required/><br>
+    	Destination Airport:<br><input type="text" name = "arr_air" size="10" required/><br>
+    	Arrival Date&Time:<br><input type="date" name="arr_date" id="round_return" required/> <input type="time" name = "arr_time" required/><br>
+    	Base Price:<br><input type="number" name = "base_price" required/><br>
+    	Airplane ID:<br><input type="text" name = "airplane_id" required/><br>
+    	Status(on-time/delayed):<br><input type="text" name = "status" value="on-time" required/><br>
+    	
+    	<p><input type="submit" value = "Create" /></p>
+    </form>
+
+    {% if error %}
+        <p>Error: {{error}}</p>
+    {% endif %}
+    
+{% endif %}
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+</body>
+</html>

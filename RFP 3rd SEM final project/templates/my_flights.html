@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if username %}
+	<br>
+	<p>{{username}}'s Flights</p>
+	</br>
+{% endif %}
+
+<style type="text/css">
+	table, th, td{
+		border: 1px solid black;
+	}
+</style>
+
+{% if pastFlights %}
+
+    <p>Past Flights:</p>
+    <table>
+    	<th>Airline</th>
+    	<th>Flight Number</th>
+    	<th>Departure Date&Time</th>
+    	<th>Departure Airport</th>
+    	<th>Arrival Date&Time</th>
+    	<th>Arrival Airport</th>
+    	<th>Sold Price</th>
+    	<th>Rate&Comment</th>
+    
+    <form action="/customer_ratecomment" method="POST">
+        {% for line in pastFlights %}
+        	<tr>
+        		<td>{{line['airline_name']}}</td>
+        		<td>{{line['flight_number']}}</td>
+        		<td>{{line['departure_datetime']}}</td>
+        		<td>{{line['departure_airport']}}</td>
+        		<td>{{line['arrival_datetime']}}</td>
+        		<td>{{line['arrival_airport']}}</td>
+        		<td>{{line['sold_price']}}</td>
+        		<td><input type="radio" name="ratecomment" value='{{line['airline_name']}}.,.{{line['flight_number']}}.,.{{line['departure_datetime']}}'> </td>
+        	</tr>
+        {% endfor %}
+        </table>
+        <p><input type="submit" value="Rate&Comment"></p>
+    </form>
+
+{% endif %}
+
+
+
+
+{% if futureFlights %}
+    <p>Future Flights:</p>
+    <table>
+    	<th>Airline</th>
+    	<th>Flight Number</th>
+    	<th>Departure Date&Time</th>
+    	<th>Departure Airport</th>
+    	<th>Arrival Date&Time</th>
+    	<th>Arrival Airport</th>
+    	<th>Sold Price</th>
+    
+    {% for line in futureFlights %}
+    	<tr>
+    		<td>{{line['airline_name']}}</td>
+    		<td>{{line['flight_number']}}</td>
+    		<td>{{line['departure_datetime']}}</td>
+    		<td>{{line['departure_airport']}}</td>
+    		<td>{{line['arrival_datetime']}}</td>
+    		<td>{{line['arrival_airport']}}</td>
+    		<td>{{line['sold_price']}}</td>
+    	</tr>
+    {% endfor %}
+    </table>
+{% endif %}
+
+
+
+<!--
+<p><a href="/">Go back</a></p>
+-->
+
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+
+</body>
+</html>

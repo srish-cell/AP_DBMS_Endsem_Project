@@ -1,0 +1,50 @@
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth=="customer" %}
+    <p>Buy Ticket: {{ticketID}}<br>
+    Price: ${{price}}</p>
+    
+    
+    <form action="/buy_ticket_confirm" method="POST">
+        <input type="hidden" name="ticketID" value={{ticketID}}>
+        <input type="hidden" name="price" value={{price}}>
+        <p>Card Information</p>
+        
+    	<input type="text" name = "card_type" placeholder="Card Type" required/><br>
+    	<input type="text" name = "card_number" placeholder="Card Number" required/><br>
+    	<input type="text" name = "name_on_card" placeholder="Name on Card" required/><br>
+    	Expiration Date:<br>
+    	<input type="date" name = "expiration_date" required/><br>
+
+    	<p><input type="submit" value = "Confirm Purchase" /></p>
+    </form>
+
+
+{% endif %}
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+</body>
+</html>

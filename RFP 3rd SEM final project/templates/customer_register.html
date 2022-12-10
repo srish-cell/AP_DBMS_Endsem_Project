@@ -1,0 +1,32 @@
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body class="body">
+	<h4 class="head">Customer Register:</h4>
+<form action="/customer_registerAuth" method="POST" >
+	Email:</br> <input type="email" name = "email" required/></br>
+	Password:</br> <input type="password" name = "password" required/></br>
+
+	<p><strong>Personal Information:</strong>  </p>
+	Name:</br>  <input type="text" name = "customer_name" required/></br>
+	Tel:</br> <input type="tel" name = "phone" required pattern="[0-9]{10}"/></br>
+	Date of birth:</br> <input type="date" name = "birthday" required/></br>
+	Passport Number:</br> <input type="text" name = "passport" required/></br>
+	Passport Country:</br> <input type="text" name = "passport_country" required/></br>
+	Passport Expiration Date:</br> <input type="date" name = "passport_expir" required/></br>
+
+	<p><strong>Address:</strong>  </p>
+	Building number:</br> <input type="text" name = "building_number" required/></br>
+	Street:</br> <input type="text" name = "street" required/></br>
+	City:</br> <input type="text" name = "city" required/></br>
+	State:</br> <input type="text" name = "state" required/></br>
+
+	<p><input type="submit" value = "Register" /></p>
+	{% if error %}
+		<p class="error"><strong>Error:</strong> {{error}}</p>
+	{% endif %}
+</form>
+<a href="/">Go back</a>
+</body>
+</html>

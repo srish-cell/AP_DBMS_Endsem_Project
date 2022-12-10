@@ -1,0 +1,22 @@
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+	<h4>Staff Register:</h4>
+<form action="/staff_registerAuth" method="POST">
+	Username:</br> <input type="text" name = "username" required/></br>
+	Password:</br> <input type="password" name = "password" required/></br>
+	<p><strong>Personal Information:</strong>  </p>
+	First name:</br>  <input type="text" name = "firstname" required/></br>
+	Last name:</br>  <input type="text" name = "lastname" required/></br>
+	Date of birth:</br> <input type="date" name = "birthday" required/></br>
+	Airline name:</br> <input type="text" name = "airline" required/></br>
+	<input type="submit" value = "Register" />
+	{% if error %}
+		<p class="error"><strong>Error:</strong> {{error}}</p>
+	{% endif %}
+</form>
+<a href="/">Go back</a>
+</body>
+</html>

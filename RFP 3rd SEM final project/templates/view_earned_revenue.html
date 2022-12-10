@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}} at {{airline}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth=="staff" %}
+    
+    <p>Ticket Sales:</p>
+    {% if monthRevenue %}
+        <p>
+        Last Month:<br>
+        Tickets Sold: {{monthRevenue['ticketSold']}}<br>
+        Total Revenue: {{monthRevenue['totalRevenue']}}
+        </p>
+    {% endif %}
+    
+    {% if yearRevenue %}
+        <p>
+        Last Year:<br>
+        Tickets Sold: {{yearRevenue['ticketSold']}}<br>
+        Total Revenue: {{yearRevenue['totalRevenue']}}
+        </p>
+    {% endif %}
+    
+    <br>
+    <p>Search Reports within Time Range:</p>
+    <form action="/view_earned_revenueSearch" method="POST">
+        Start Date:<br>
+        <input type="date" name="startdate"><br>
+        End Date:<br>
+        <input type="date" name="enddate"><br>
+        <p><input type="submit" value = "Search" /></p>
+    </form>
+    
+    
+    <style type="text/css">
+    	table, th, td{
+    		border: 1px solid black;
+    	}
+    </style>
+    
+    {% if searchResult %}
+    	<p>Search Results:</p>
+        <table>
+            <th>Year</th>
+        	<th>Month</th>
+        	<th>Tickets Sold</th>
+        	<th>Total Revenue</th>
+        
+        {% for line in searchResult %}
+        	<tr>
+        		<td>{{line['theYear']}}</td>
+        		<td>{{line['theMonth']}}</td>
+        		<td>{{line['ticketSold']}}</td>
+        		<td>{{line['totalRevenue']}}</td>
+        	</tr>
+        {% endfor %}
+        </table>
+    {% elif error%}
+        {{error}}
+    {% endif %}
+    
+
+    
+{% endif %}
+
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+
+</body>
+</html>

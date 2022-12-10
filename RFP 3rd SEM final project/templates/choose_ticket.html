@@ -1,0 +1,67 @@
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth=="customer" %}
+
+    
+    <style type="text/css">
+    	table, th, td{
+    		border: 1px solid black;
+    	}
+    </style>
+    
+    
+    <p>
+    Ticket for: {{airlineName}}, {{flightNum}}, {{deptDatetime}}<br>
+    Occupancy: {{occupancy}}/{{capacity}}<br>
+    Current Price: ${{price}}<br>
+    </p>
+    {% if ticketsInfo %}
+    <form action="buy_ticket" method="POST">
+        <input type="hidden" name="price" value={{price}}>
+    
+        <table>
+            <th>Buy Ticket</th>
+        	<th>Ticket ID (different for each seat)</th>
+        
+            {% for line in ticketsInfo %}
+            	<tr>
+                	<td> <input type="radio" name="ticketID" value='{{line['ticket_id']}}' required> </td>
+            		<td>{{line['ticket_id']}}</td>
+
+            	</tr>
+            {% endfor %}
+        </table>
+        <p><input type="submit" value="Buy"></p>
+    </form>
+    {% endif %}
+    
+
+
+{% endif %}
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+</body>
+</html>

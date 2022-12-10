@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}} at {{airline}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth=="staff" %}
+
+    <p>Search a customer email to view all flights taken:</p>
+    <form action="/particular_customerSearch" method="POST">
+        <input type="text" name="cusEmail" placeholder="email" required><br>
+        <p><input type="submit" value="Search"></p>
+    </form>
+
+    <style type="text/css">
+    	table, th, td{
+    		border: 1px solid black;
+    	}
+    </style>
+    
+    
+    {% if allFrequentCustomer %}
+    	<p>Most Frequent Customers Last Year (in descending order of tickets bought):</p>
+        <table>
+        	<th>Email</th>
+        	<th>Name</th>
+        	<th>Tickets Bought</th>
+        	<th>Total Spending</th>
+        
+        {% for line in allFrequentCustomer %}
+        	<tr>
+        		<td>{{line['email']}}</td>
+        		<td>{{line['customer_name']}}</td>
+        		<td>{{line['ticketsBought']}}</td>
+        		<td>{{line['totalSpending']}}</td>
+        	</tr>
+        {% endfor %}
+        </table>
+
+    {% endif %}
+    
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}
+    
+
+{% endif %}
+
+
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+
+</body>
+</html>

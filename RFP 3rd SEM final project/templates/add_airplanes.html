@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body class="head1">
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}} at {{airline}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth=="staff" %}
+    <p>Add Airplane:</p>
+    <form action="/add_airplanesConfirm" method="POST">
+        Airplane ID:<br><input type="text" name="airID" required><br>
+        Number of Seats:<br><input type="number" name="seatNum" required><br>
+        <p><input type="submit" value="Add"></p>
+    </form>
+    
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}
+    
+    <br>
+    
+    <style type="text/css">
+    	table, th, td{
+    		border: 1px solid black;
+    	}
+    </style>
+    
+    
+    {% if airplaneData %}
+    	<p>Airplanes in system:</p>
+        <table>
+        	<th>Airline</th>
+        	<th>Airplane ID</th>
+        	<th>Number of Seats</th>
+        
+        {% for line in airplaneData %}
+        	<tr>
+        		<td>{{line['airline_name']}}</td>
+        		<td>{{line['airplane_id']}}</td>
+        		<td>{{line['seats']}}</td>
+        	</tr>
+        {% endfor %}
+        </table>
+
+    {% endif %}
+    
+
+{% endif %}
+
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+
+</body>
+</html>

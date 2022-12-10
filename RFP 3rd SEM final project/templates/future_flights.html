@@ -1,0 +1,81 @@
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}" >
+</head>
+<body>
+<form action="/future_flightsSearch" method="POST">
+	Departure Airport:<br><input type="text" name = "dept_air" required/><br>
+	Destination Airport:<br><input type="text" name = "arr_air" required/><br>
+	Departure Date:<br><input type="date" name = "dept_date" required/><br>
+	<p> Round Trip: <input type="checkbox" id="round_check" name = "round_trip"/><br>
+	Return Date:<br><input type="date" name="return_date" id="round_return" disabled required/><br> </p>
+	<script>
+		document.getElementById('round_check').onchange = function() {
+    	document.getElementById('round_return').disabled = !this.checked;
+		};
+	</script>
+	<p><input type="submit" value = "Search" /></p>
+</form>
+
+
+<br>
+
+<style type="text/css">
+	table, th, td{
+		border: 1px solid black;
+	}
+</style>
+
+{% if dataGo %}
+<p>Go: {{deptAir}} to {{arrAir}} </p>
+<table>
+	<th>Airline</th>
+	<th>Flight Number</th>
+	<th>Departure Date&Time</th>
+	<th>Arrival Date&Time</th>
+	<th>Base Price</th>
+
+{% for line in dataGo %}
+	<tr>
+		<td>{{line['airline_name']}}</td>
+		<td>{{line['flight_number']}}</td>
+		<td>{{line['departure_datetime']}}</td>
+		<td>{{line['arrival_datetime']}}</td>
+		<td>{{line['base_price']}}</td>
+	</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{% if dataReturn %}
+<p>Return: {{arrAir}} to {{deptAir}}</p>
+<table>
+	<th>Airline</th>
+	<th>Flight Number</th>
+	<th>Departure Date&Time</th>
+	<th>Arrival Date&Time</th>
+	<th>Base Price</th>
+
+{% for line in dataReturn %}
+	<tr>
+		<td>{{line['airline_name']}}</td>
+		<td>{{line['flight_number']}}</td>
+		<td>{{line['departure_datetime']}}</td>
+		<td>{{line['arrival_datetime']}}</td>
+		<td>{{line['base_price']}}</td>
+	</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+</body>
+</html>

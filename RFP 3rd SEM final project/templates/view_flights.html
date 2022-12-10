@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static',filename='styles/flight.css')}}">
+</head>
+<body>
+
+{% if not username %}
+	<p>Hi! Please <a href="/login">login</a>.</p>
+{% endif %}
+
+{% if username %}
+	<p>Hi, {{username}} at {{airline}}!  <a href="/logout">Logout</a></p>
+	</br>
+{% endif %}
+
+
+{% if auth=="staff" %}
+    <p>Search Flights (please search with a pair of dates, or a pair of airports, or both):</p>
+    <form action="/view_flightsSearch" method="POST">
+        Departure Date Range:<br>
+        From <input type="date" name="startDate">
+        To <input type="date" name="endDate"><br>
+        Departure Airport:<br><input type="text" name="dept_air" size="10"><br>
+        Destination Airport:<br><input type="text" name="arr_air"size="10"><br>
+        <p><input type="submit" value="Search"></p>
+        
+    </form>
+    
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}
+    
+    <br>
+    
+    <style type="text/css">
+    	table, th, td{
+    		border: 1px solid black;
+    	}
+    </style>
+    
+    
+    {% if searchData %}
+    	<p>Search Results:</p>
+        <table>
+        	<th>Airline</th>
+        	<th>Flight Number</th>
+        	<th>Departure Date&Time</th>
+        	<th>Departure Airport</th>
+        	<th>Arrival Date&Time</th>
+        	<th>Arrival Airport</th>
+        	<th>Base Price</th>
+        	<th>Airplane</th>
+        	<th>Status</th>
+        	<th>Choose</th>
+        
+        <form action="/change_status" method="POST">
+            
+            <!-- <input type="hidden" name="keepData" value='{{searchData}}'> -->
+            
+            {% for line in searchData %}
+            	<tr>
+            		<td>{{line['airline_name']}}</td>
+            		<td>{{line['flight_number']}}</td>
+            		<td>{{line['departure_datetime']}}</td>
+            		<td>{{line['departure_airport']}}</td>
+            		<td>{{line['arrival_datetime']}}</td>
+            		<td>{{line['arrival_airport']}}</td>
+            		<td>{{line['base_price']}}</td>
+            		<td>{{line['airplane_id']}}</td>
+            		<td>{{line['flight_status']}}</td>
+            		<td><input type="radio" name="chooseStatus" value="{{line['flight_number']}}.,.{{line['departure_datetime']}}" required > </td>
+            	</tr>
+            {% endfor %}
+            </table>
+            <p><input type="text" name="newStatus" placeholder="on-time/delayed" size="10" required><input type="submit" value="Update Status"></p>
+        </form>
+    {% endif %}
+    
+    {% if defaultData %}
+    	<p>Flights for the next 30 days:</p>
+        <table>
+        	<th>Airline</th>
+        	<th>Flight Number</th>
+        	<th>Departure Date&Time</th>
+        	<th>Departure Airport</th>
+        	<th>Arrival Date&Time</th>
+        	<th>Arrival Airport</th>
+        	<th>Base Price</th>
+        	<th>Airplane</th>
+        	<th>Status</th>
+        	<th>Choose</th>
+        
+        <form action="/change_status" method="POST">
+            {% for line in defaultData %}
+            	<tr>
+            		<td>{{line['airline_name']}}</td>
+            		<td>{{line['flight_number']}}</td>
+            		<td>{{line['departure_datetime']}}</td>
+            		<td>{{line['departure_airport']}}</td>
+            		<td>{{line['arrival_datetime']}}</td>
+            		<td>{{line['arrival_airport']}}</td>
+            		<td>{{line['base_price']}}</td>
+            		<td>{{line['airplane_id']}}</td>
+            		<td>{{line['flight_status']}}</td>
+            		<td><input type="radio" name="chooseStatus" value="{{line['flight_number']}}.,.{{line['departure_datetime']}}" required> </td>
+            	</tr>
+            {% endfor %}
+            </table>
+            <p><input type="text" name="newStatus" placeholder="on-time/delayed" size="10" required><input type="submit" value="Update Status"></p>
+        </form>
+    {% endif %}
+    
+    
+    
+
+    
+    
+{% endif %}
+
+
+<br>
+{% if auth=="staff" %}
+    <p><a href="/staff_back">Go back (staff)</a></p>
+{% elif auth=="customer" %}
+    <p><a href="/customer_back">Go back (customer)</a></p>
+{% else %}
+    <p><a href="/">Go back</a></p>
+{% endif %}
+
+
+
+</body>
+</html>
